@@ -1,0 +1,94 @@
+:root {
+    --background-color: #2D3338;
+    --dark-background-color: #212428;
+    --primary-font-color: #9ea2a6;
+    --secondary-font-color: #ebeced;
+    --primary-color: #6fb0e2;
+}
+
+.dark-mode {
+    --background-color: #FEFEFE;
+    --dark-background-color: #F5F5F7;
+    --primary-font-color: #9ea2a6;
+    --secondary-font-color: #212428;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    color: var(--primary-font-color);
+}
+
+.theme-toggle {
+    /* TODO */
+    display: none;
+}
+
+main {
+    height: 100vh;
+    width: 100vw;
+    background: url("/assets/images/stacked-waves-haikei.png") center no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calculator {
+    width: min(90%, 360px);
+    background: var(--background-color);
+}
+
+.buttons {
+    padding: 20px;
+}
+
+/* This removes unwanted space between the buttons */
+.button-row {
+    font-size: 0;
+    width: 100%;
+    display: flex;
+}
+
+.button-row button {
+    font-size: 24px;
+    padding-block: 16px;
+    border: 0;
+    flex: 1;
+    background: none;
+    cursor: pointer;
+}
+
+.button-row button:hover {
+    color: var(--secondary-font-color);
+    background-color: var(--dark-background-color);
+}
+
+.screen {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--dark-background-color);
+}
+
+.expression {
+    font-weight: 300;
+    color: var(--primary-color);
+}
+
+.output {
+    font-size: 5rem;
+    font-weight: 100;
+    color: var(--secondary-font-color);
+}
+
+.button-row .equal {
+    font-size: 2rem;
+    background: var(--primary-color);
+    color: white;
+}
