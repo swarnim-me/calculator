@@ -74,7 +74,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 break;
             case "/": output = String(Number(firstNumber) / Number(secondNumber));
                 break;
-            case "%": output = String(Number(firstNumber) / Number(secondNumber) * 100);
+            case "%": output = String(Number(firstNumber) * Number(secondNumber) / 100);
                 break;
         }
         // Checking for decimal values
