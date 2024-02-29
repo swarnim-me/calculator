@@ -8,13 +8,14 @@ window.addEventListener("DOMContentLoaded", () => {
     const equalBtn = document.querySelector(".equal-btn");
     const clearBtn = document.querySelector(".clear-btn");
     const deleteBtn = document.querySelector(".delete-btn");
+    const decimalBtn = document.querySelector(".decimal-btn");
+
     const themeToggleBtn = document.querySelector(".theme-toggle");
     let firstNumber = "";
     let secondNumber = "";
     let operator = "";
     let expression = "";
     let isSecondNumber = false;
-
     function updateExpressionDisplay(text) {
         expressionText.textContent = text;
     }
@@ -23,8 +24,18 @@ window.addEventListener("DOMContentLoaded", () => {
         output.textContent = text;
     }
 
+    function format(text) {
+        let output = "";
+        for (let i = 0; i < text.length; i++) {
+            if (text[i] === "+" || text[i] === "-" || text[i] === "x" || text[i] === "/" || text[i] === "%") output += " ";
+            output += text[i];
+            if (text[i] === "+" || text[i] === "-" || text[i] === "x" || text[i] === "/" || text[i] === "%") output += " ";
+        }
+        return output;
+    }
+
     function updateExpression(text) {
-        expression = text;
+        expression = format(text);
         updateExpressionDisplay(expression);
     }
 
@@ -47,15 +58,29 @@ window.addEventListener("DOMContentLoaded", () => {
         return text.substring(0, text.length - 1);
     }
 
+
     function evaluate() {
+        let output = 0;
+        if (firstNumber === "") return 0;
+        if (secondNumber === "") return firstNumber;
         switch (operator) {
-            case "": return "";
-            case "+": return String(Number(firstNumber) + Number(secondNumber));
-            case "x": return String(Number(firstNumber) * Number(secondNumber));
-            case "-": return String(Number(firstNumber) - Number(secondNumber));
-            case "/": return String(Number(firstNumber) / Number(secondNumber));
-            case "%": return String(Number(firstNumber) / Number(secondNumber) * 100);
+            case "": output = "";
+                break;
+            case "+": output = String(Number(firstNumber) + Number(secondNumber));
+                break;
+            case "x": output = String(Number(firstNumber) * Number(secondNumber));
+                break;
+            case "-": output = String(Number(firstNumber) - Number(secondNumber));
+                break;
+            case "/": output = String(Number(firstNumber) / Number(secondNumber));
+                break;
+            case "%": output = String(Number(firstNumber) / Number(secondNumber) * 100);
+                break;
         }
+        // Checking for decimal values
+        const roundingFactor = 10000;
+        output = Math.round((Number(output) + Number.EPSILON) * roundingFactor) / roundingFactor;
+        return String(output);
     }
 
     function updateResult() {
@@ -115,6 +140,26 @@ window.addEventListener("DOMContentLoaded", () => {
             }
             updateExpression(removeLastChar(expression));
         }
+    })
+
+    specialBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            if (btn.textContent === "00") {
+                updateExpression(expression + btn.textContent);
+                if (!isSecondNumber) firstNumber += btn.textContent;
+                else secondNumber += btn.textContent;
+            }
+            else if (btn.textContent === ".") {
+                if (!isSecondNumber && !firstNumber.includes(".")) {
+                    firstNumber += btn.textContent;
+                    updateExpression(expression + btn.textContent);
+                }
+                else if (!secondNumber.includes(".")) {
+                    secondNumber += btn.textContent;
+                    updateExpression(expression + btn.textContent);
+                }
+            }
+        })
     })
 
     equalBtn.addEventListener("click", () => {
