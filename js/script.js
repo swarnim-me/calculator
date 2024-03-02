@@ -85,8 +85,16 @@ window.addEventListener("DOMContentLoaded", () => {
 
     function updateResult() {
         firstNumber = evaluate();
-        updateExpression(firstNumber.toString());
-        updateOutputScreen(firstNumber);
+        if (firstNumber === "Infinity") {
+            firstNumber = 0;
+            updateExpression("You know, sometimes math has its limits");
+            expression = "";
+            updateOutputScreen('🥺');
+        }
+        else {
+            updateExpression(firstNumber.toString());
+            updateOutputScreen(firstNumber);
+        }
     }
 
     themeToggleBtn.addEventListener("click", () => {
@@ -111,8 +119,8 @@ window.addEventListener("DOMContentLoaded", () => {
                 operator = event.target.textContent;
             }
             else {
-                operator = event.target.textContent;
                 updateResult();
+                operator = event.target.textContent;
                 secondNumber = "";
                 updateExpression(firstNumber + event.target.textContent);
                 updateOutputScreen(firstNumber);
@@ -168,4 +176,4 @@ window.addEventListener("DOMContentLoaded", () => {
         secondNumber = "";
         isSecondNumber = false;
     })
-})
+});
